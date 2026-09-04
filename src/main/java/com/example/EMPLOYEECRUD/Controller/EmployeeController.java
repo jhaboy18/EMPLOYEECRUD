@@ -41,4 +41,33 @@ public class EmployeeController {
         return ResponseEntity.ok(employees);
     }
     // upate ka put and dletye ka bhi likely same hi hoga maien bahut kiya hai mern me aisa waise ye acha lg rha hai
+
+    @PutMapping("/update/{id}")
+    public ResponseEntity<Employee> updatemployee(@PathVariable Long id,@RequestBody Employee employeereq){
+        Employee employeeres=employeeService.update(id,employeereq);
+        return ResponseEntity.ok(employeeres);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Boolean> delete(@PathVariable Long id) {
+
+        Employee employeeres = employeeService.delete(id);
+
+        if (employeeres == null) {
+            return ResponseEntity.notFound().build();
+        }
+
+        return ResponseEntity.ok(true);
+    }
+    @PatchMapping("/delete-soft/{id}")
+    public ResponseEntity<String> deletedsoftly(@PathVariable Long id) {
+
+        Boolean isdeleted = employeeService.deletestuydentsoftly(id);
+
+        if (!isdeleted) {
+            return ResponseEntity.notFound().build();
+        }
+
+        return ResponseEntity.ok("Student deleted");
+    }
 }

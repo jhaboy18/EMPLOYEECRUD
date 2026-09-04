@@ -13,6 +13,8 @@ public class Employee {
     private String name;
     private String department;
     private Double salary;
+    private Boolean deleted;
+
 
     public Employee(Long id, String name, String department, Double salary) {
         this.id = id;
@@ -54,5 +56,13 @@ public class Employee {
 
     public void setSalary(Double salary) {
         this.salary = salary;
+    }
+
+    public Boolean getDeleted() {
+        return deleted;
+    }
+
+    public void setDeleted(Boolean deleted) {
+        this.deleted = deleted;
     }
 }
