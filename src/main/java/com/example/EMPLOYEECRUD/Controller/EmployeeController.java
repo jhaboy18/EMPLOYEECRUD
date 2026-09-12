@@ -1,5 +1,6 @@
 package com.example.EMPLOYEECRUD.Controller;
 
+import com.example.EMPLOYEECRUD.DTO.EmployeeDto;
 import com.example.EMPLOYEECRUD.Entities.Employee;
 import com.example.EMPLOYEECRUD.Service.EmployeeService;
 import org.springframework.http.ResponseEntity;
@@ -16,11 +17,12 @@ public class EmployeeController {
         this.employeeService = employeeService;
     }
 
-    @PostMapping("/add")
+    @PostMapping("/create")
+    public ResponseEntity<Employee> addemployee(@RequestBody EmployeeDto employeeDto) {
 
-    public ResponseEntity<Employee> addemployee(@RequestBody Employee employee){
-        Employee employee1=employeeService.createEmployee(employee);
-        return ResponseEntity.ok(employee1);
+        Employee employee = employeeService.createEmployee(employeeDto);
+
+        return ResponseEntity.ok(employee);
     }
 
     // get one employee
@@ -43,9 +45,13 @@ public class EmployeeController {
     // upate ka put and dletye ka bhi likely same hi hoga maien bahut kiya hai mern me aisa waise ye acha lg rha hai
 
     @PutMapping("/update/{id}")
-    public ResponseEntity<Employee> updatemployee(@PathVariable Long id,@RequestBody Employee employeereq){
-        Employee employeeres=employeeService.update(id,employeereq);
-        return ResponseEntity.ok(employeeres);
+    public ResponseEntity<Employee> updateEmployee(
+            @PathVariable Long id,
+            @RequestBody EmployeeDto employeeDto) {
+
+        Employee employee = employeeService.update(id, employeeDto);
+
+        return ResponseEntity.ok(employee);
     }
 
     @DeleteMapping("/{id}")

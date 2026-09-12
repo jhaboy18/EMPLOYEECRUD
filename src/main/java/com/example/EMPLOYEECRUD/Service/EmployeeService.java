@@ -1,9 +1,11 @@
 package com.example.EMPLOYEECRUD.Service;
 
+import com.example.EMPLOYEECRUD.DTO.EmployeeDto;
 import com.example.EMPLOYEECRUD.Entities.Employee;
 import com.example.EMPLOYEECRUD.Repository.EmployeeRepository;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -16,10 +18,20 @@ public class EmployeeService {
     }
     // create Employee
 
-    public Employee createEmployee(Employee employee){
+    public Employee createEmployee(EmployeeDto employeeDto) {
+
+        Employee employee = new Employee();
+
+        employee.setName(employeeDto.getName());
+        employee.setDepartment(employeeDto.getDepartment());
+        employee.setSalary(employeeDto.getSalary());
+
         employee.setDeleted(false);
-        Employee empployeeres=employeeRepository.save(employee);
-        return empployeeres;
+        employee.setCreatedAt(LocalDateTime.now());
+
+        Employee employeeResponse = employeeRepository.save(employee);
+
+        return employeeResponse;
     }
     // get 1 employee
     public Employee getoneemployee(Long id){
@@ -35,19 +47,24 @@ public class EmployeeService {
         return employeeRepository.findByDeletedIsFalse();
     }
 
-    public Employee update(Long id,Employee employee) {
-        Optional<Employee> employeeres=employeeRepository.findByIdAndDeletedIsFalse(id);
-        if(employeeres.isEmpty()){
+    public Employee update(Long id, EmployeeDto employeeDto) {
+
+        Optional<Employee> employeeres =
+                employeeRepository.findByIdAndDeletedIsFalse(id);
+
+        if (employeeres.isEmpty()) {
             return null;
         }
-        Employee updatedemployee=employeeres.get();
-        updatedemployee.setName(employee.getName());
-        updatedemployee.setDepartment(employee.getDepartment());
-        updatedemployee.setSalary(employee.getSalary());
+
+        Employee updatedemployee = employeeres.get();
+
+        updatedemployee.setName(employeeDto.getName());
+        updatedemployee.setDepartment(employeeDto.getDepartment());
+        updatedemployee.setSalary(employeeDto.getSalary());
+
+        updatedemployee.setUpdatedAt(LocalDateTime.now());
 
         return employeeRepository.save(updatedemployee);
-
-
     }
 
     public Employee delete(Long id) {
